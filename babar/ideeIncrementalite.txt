@@ -1,0 +1,45 @@
+compteur static (de formule)
+formule.ID = compteur++
+hashmap <formule.ID, formule>
+(lors de la premiere éval des formules)
+si cell dans formule:
+cell.listeID.append(formule.ID)
+(avec l'utilisation de user.txt)
+si cell.value != cell.oldValue
+ alors si cell.listeID != vide
+  alors pour tout ID de cell.listeID
+   increment(ID, cell, cell.oldvalue) end pour tout
+  end si
+end si
+
+increment (int id, cellule cell, int oldvalue)
+ formule = hashmap.get(id)
+ si cell.value != formule.valueseek && oldvalue == formule.valueseek
+  alors formule.value -=1
+ end si
+ si cell.value == formule.valueseek && oldvalue != formule.valueseek
+  alors formule.value +=1
+ end si
+
+Parcourir le fichier une fois; dresser une liste des formules qui dependent d'une autre formule (cad non evaluable tout de suite).
+On parcourt ensuite cette liste de formules :
+-on a 4 etats : blanc=non visite; noir= evalue; gris=en cours d'evalutation; rouge=evaluation impossible.
+-quand on evalue une formule contenue dans une cellule A, on colore A en gris et on evalue les cellules dont elle a besoin.
+-si au moins l'une de ces cellules est grise ou rouge, on colore la cellule A et la cellule concernee en rouge.
+-sinon on la colore en noir et on y met la valeur obtenue.
+
+Parcours de chaque cellule.
+    *si la cellule contient une valeur
+        *on la traite.
+    *sinon la cellule contient une formule
+        *on essaie de la traiter. A la premiere case contenant une formule rencontree, on renvoie une valeur specifique (pas traitable immediatement).
+        *si pas de formule rencontree, on renvoie la valeur obtenue
+        *sinon la formule est incorrecte, et on renvoie donc P.
+
+Pour chaque cellule mise de cote :
+    *on la marque en gris.
+    *on essaie de traiter la formule en parcourant chaque case concernee:
+        *si la case est un nombre, on verifie s'il satisfait la formule et on agit en consequence. (on ne le marque pas puisqu'il s'agit d'un nombre)
+        *si la case est une formule
+            *si case est marquee en gris ou rouge, on renvoie rouge.
+            *sinon on la marque en gris et on evalue la formule de la case cible.

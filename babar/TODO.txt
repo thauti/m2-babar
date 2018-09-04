@@ -1,0 +1,5 @@
+1. Creer le graphe
+2. Ecrire methode de parcours de fichier (aller a l'emplacement {i; j})
+3. Paralelliser creation des formules (et paralellisation en general)
+4 Evaluation des formules
+5. Prise en compte de changes.txt
